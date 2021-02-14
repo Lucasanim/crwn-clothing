@@ -1,5 +1,4 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 
 import {connect} from 'react-redux'
 
@@ -8,7 +7,6 @@ import { createStructuredSelector } from 'reselect'
 import {auth} from '../../firebase/firebase.utils'
 
 import { ReactComponent as Logo } from '../../assets/crown.svg'
-import './header.styles.scss'
 
 import CartIcon from '../cart-icon/cart-icon.component'
 
@@ -17,34 +15,35 @@ import CartDopdown from '../cart-dropdown/cart-dropdown.component'
 import {selectCurrentUser} from '../../redux/user/user.selectors'
 import {selectCartHidden} from '../../redux/cart/cart.selectrors'
 
+import {OptionsContainer, OptionLink, LogoContainer, HeaderContainer} from './header.styles'
 
 const Header = ({currentUser, hidden}) => (
-    <div className='header'>
-        <Link to='/' className='logo-container'>
-            <Logo className='logo' />
-        </Link>
-        <div className='options'>
-            <Link className='option' to='/shop'>
+    <HeaderContainer>
+        <LogoContainer to='/' >
+            <Logo />
+        </LogoContainer>
+        <OptionsContainer>
+            <OptionLink to='/shop'>
                 SHOP
-            </Link>
-            <Link className='option' to='/shop'>
+            </OptionLink>
+            <OptionLink to='/shop'>
                 CONTACT
-            </Link>
+            </OptionLink>
             {
                 currentUser ?
-                <div className='option' onClick={() => auth.signOut()}>
+                <OptionLink as='div' onClick={() => auth.signOut()}>
                     SIGN OUT
-                </div>
-                :<Link className='option' to='/signin'>
+                </OptionLink>
+                :<OptionLink to='/signin'>
                     SIGN IN
-                </Link>
+                </OptionLink>
             }
             <CartIcon />
-        </div>
+        </OptionsContainer>
         {
             hidden ? null : <CartDopdown />
         }
-    </div>
+    </HeaderContainer>
 )
 
 const mapStateToProps = createStructuredSelector({
